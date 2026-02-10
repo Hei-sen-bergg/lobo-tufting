@@ -14,7 +14,7 @@ export const COLORS = {
   textMuted: '#7C857C'
 };
 
-export const WHATSAPP_NUMBER = "919037305374"; // Updated to a realistic Kerala number format
+export const WHATSAPP_NUMBER = "919526276687"; // Updated to a realistic Kerala number format
 
 export const getWhatsAppLink = (message: string) => {
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

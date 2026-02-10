@@ -1,0 +1,7 @@
+{
+  "name": "LoboTufting-V1",
+  "description": "A premium tufting brand website and web app for custom rugs, workshops, and handcrafted products.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

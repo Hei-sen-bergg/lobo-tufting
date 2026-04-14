@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
+import { Menu, X, Instagram, Twitter, MessageCircle } from 'lucide-react';
 import { COLORS, WHATSAPP_NUMBER } from '../constants';
 
 const Navbar = () => {
@@ -20,7 +20,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-xl border-b border-[#1C261C] py-5 px-6 z-[100]">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="text-[#74C63D] font-display text-2xl font-bold tracking-tighter flex items-center gap-3">
-          <div className="w-8 h-8 bg-[#74C63D] rounded-lg rotate-12 group-hover:rotate-0 transition-transform"></div>
+           <img src="/lobo_tufting_/logo-main.png" alt="LOBO Tufting logo" className="w-8 h-8 rounded-lg object-cover" />
           LOBO <span className="text-white">TUFTING</span>
         </Link>
 
@@ -86,7 +86,7 @@ const Footer = () => {
             LOBO <span className="text-white">TUFTING</span>
           </div>
           <p className="text-[#7C857C] leading-relaxed">
-            Crafting premium handmade rugs that transform spaces into experiences. Based in Thoongalloor, Kerala.
+            Crafting premium handmade rugs that transform spaces into experiences. Based in Kodungallur, Kerala.
           </p>
         </div>
 
@@ -103,20 +103,20 @@ const Footer = () => {
         <div>
           <h4 className="text-white text-xs font-black uppercase tracking-widest mb-8">Social</h4>
           <div className="flex gap-4">
-            <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
+            <a href="https://www.instagram.com/lobo_tufting_/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
               <Instagram size={20} />
             </a>
-            <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
+            {/* <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
               <Twitter size={20} />
-            </a>
+            </a> */}
           </div>
         </div>
 
         <div>
           <h4 className="text-white text-xs font-black uppercase tracking-widest mb-8">Studio</h4>
           <p className="text-[#7C857C] text-sm leading-relaxed">
-            Thoongalloor, Kerala, India<br />
-            PIN: 680001<br />
+            Kodungallur, Kerala, India<br />
+            PIN: 680667<br />
             hello@lobotufting.com
           </p>
         </div>
@@ -128,17 +128,38 @@ const Footer = () => {
   );
 };
 
-const WhatsAppFAB = () => {
+const FloatingActionButtons = () => {
     return (
-        <a 
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-5 rounded-2xl shadow-2xl hover:scale-110 hover:-rotate-6 transition-all active:scale-95 flex items-center justify-center"
-            aria-label="Contact on WhatsApp"
-        >
-            <MessageCircle size={32} fill="currentColor" />
-        </a>
+        <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4 items-center">
+            {/* Instagram Button */}
+            <a 
+                href="https://www.instagram.com/lobo_tufting_/"
+                target="_blank"
+                rel="noopener noreferrer"
+className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all"                aria-label="Follow on Instagram"
+            >
+                <Instagram size={32} fill="" />
+            </a>
+
+             {/* <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
+              <Instagram size={20} />
+            </a>
+            <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
+              <Twitter size={20} />
+            </a> */}
+
+
+            {/* WhatsApp Button */}
+            <a 
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all"
+                aria-label="Contact on WhatsApp"
+            >
+                <MessageCircle size={32} fill="" />
+            </a>
+        </div>
     )
 }
 
@@ -148,7 +169,7 @@ export const Layout = ({ children }: { children?: React.ReactNode }) => {
       <Navbar />
       <main className="flex-grow">{children}</main>
       <Footer />
-      <WhatsAppFAB />
+      <FloatingActionButtons />
     </div>
   );
 };

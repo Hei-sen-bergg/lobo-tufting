@@ -8,16 +8,26 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Archivo+Black&display=swap" rel="stylesheet">
     <style>
+      * {
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="%2374C63D" opacity="0.9" stroke="%235FA030" stroke-width="1.5"/></svg>') 20 20, auto !important;
+      }
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Archivo Black', sans-serif;
         background-color: #000000;
         color: #FFFFFF;
         overflow-x: hidden;
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="%2374C63D" opacity="0.9" stroke="%235FA030" stroke-width="1.5"/></svg>') 20 20, auto !important;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Archivo Black', 'Space Grotesk', sans-serif;
       }
       .font-display {
-        font-family: 'Space Grotesk', sans-serif;
+        font-family: 'Archivo Black', 'Space Grotesk', sans-serif;
+      }
+      .font-archivo {
+        font-family: 'Archivo Black', sans-serif;
       }
       ::-webkit-scrollbar {
         width: 8px;
@@ -53,6 +63,11 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
+    <style>
+      html, body, * {
+        cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="%2374C63D" opacity="0.9" stroke="%235FA030" stroke-width="1.5"/></svg>') 20 20, auto !important;
+      }
+    </style>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

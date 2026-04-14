@@ -2,11 +2,16 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Star, Palette, Users, ShieldCheck } from 'lucide-react';
-import { MOCK_GALLERY, getWhatsAppLink } from '../constants';
+import { MOCK_GALLERY, getWhatsAppLink, VIDEOS } from '../constants';
 import { gsap } from 'gsap';
+import { useParallaxEffect, useScrollFadeIn } from '../components/animations/ScrollAnimations';
+import { VideoCard } from '../components/VideoCard';
+import { ImageCard } from '../components/ImageCard';
+import { StatsCounter } from '../components/StatsCounter';
 
 const Hero = () => {
     const heroRef = useRef<HTMLDivElement>(null);
+    const heroImageRef = useParallaxEffect(0.5);
 
     useEffect(() => {
         if (!heroRef.current) return;
@@ -38,11 +43,22 @@ const Hero = () => {
 
     return (
         <div ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-6 pt-20">
+            {/* Parallax background image */}
+            <div 
+                ref={heroImageRef}
+                className="absolute inset-0 -z-20 opacity-40"
+                style={{
+                    backgroundImage: "url('/lobo_tufting_/lobo_tufting__1687850774_3134241923196813278_47333694357.webp')",
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center'
+                }}
+            />
+            
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_top,_rgba(116,198,61,0.1),_rgba(0,0,0,1))] -z-10"></div>
             
             <div className="max-w-5xl text-center space-y-8">
                 <div className="hero-sub inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1C261C] border border-[#74C63D]/20 text-[#74C63D] text-sm font-medium">
-                    <Star size={14} fill="currentColor" /> Handcrafted with Precision in Kerala
+                   Not just made, felt
                 </div>
                 <h1 className="hero-title text-6xl md:text-9xl font-display font-bold tracking-tighter leading-none text-white">
                     ART YOU CAN <br /> <span className="text-[#74C63D]">WALK ON.</span>
@@ -52,7 +68,9 @@ const Hero = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
                     <a 
-                        href={getWhatsAppLink("Hi LOBO! I want to inquire about a custom rug order.")} 
+                        href={getWhatsAppLink("Hi LOBO! I want to inquire about a custom rug order.")}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="hero-btn w-full sm:w-auto px-10 py-5 bg-[#74C63D] text-black font-bold rounded-xl hover:bg-[#8DFF4A] transition-all"
                     >
                         Custom Inquiry
@@ -72,13 +90,20 @@ const HowItWorks = () => {
     useEffect(() => {
         if (!sectionRef.current) return;
         const ctx = gsap.context(() => {
-            gsap.from(".step-card", {
+            // Set initial state for all cards
+            gsap.set(".step-card", {
+                y: 60,
+                opacity: 0
+            });
+
+            // Animate TO visible state on scroll
+            gsap.to(".step-card", {
                 scrollTrigger: {
                     trigger: sectionRef.current,
                     start: "top 80%",
                 },
-                y: 60,
-                opacity: 0,
+                y: 0,
+                opacity: 1,
                 duration: 1,
                 stagger: 0.3,
                 ease: "power3.out"
@@ -117,6 +142,18 @@ const HowItWorks = () => {
 };
 
 export const Home = () => {
+  const teaserTitleRef = useScrollFadeIn({
+    duration: 1,
+    delay: 0,
+    distance: 60
+  });
+
+  const teaserImageRef = useScrollFadeIn({
+    duration: 1.2,
+    delay: 0.2,
+    distance: 80
+  });
+
   return (
     <div className="space-y-0">
       <Hero />
@@ -125,10 +162,10 @@ export const Home = () => {
       {/* Visual Teaser */}
       <section className="py-32 px-6 overflow-hidden">
           <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-              <div className="space-y-8">
-                  <h2 className="text-5xl md:text-7xl font-display font-bold leading-none">Crafting <br /><span className="text-[#74C63D]">Soft Statments.</span></h2>
+              <div ref={teaserTitleRef} className="space-y-8">
+                  <h2 className="text-5xl md:text-7xl font-display font-bold leading-none">Crafting <br /><span className="text-[#74C63D]">Soft Statements.</span></h2>
                   <p className="text-[#B8C0B8] text-xl leading-relaxed">
-                      Every rug we create is more than just home decor; it's a piece of tactile art. Located in Thoongalloor, we pride ourselves on pushing the boundaries of tufting techniques.
+                      Every rug we create is more than just home decor; it's a piece of tactile art. Located in Kodungallur, we pride ourselves on pushing the boundaries of tufting techniques.
                   </p>
                   <div className="flex gap-8 border-l-2 border-[#1C261C] pl-8">
                       <div>
@@ -141,12 +178,18 @@ export const Home = () => {
                       </div>
                   </div>
               </div>
-              <div className="relative group">
+              <div ref={teaserImageRef} className="relative group">
                   <div className="absolute -inset-4 bg-[#74C63D]/20 rounded-3xl blur-2xl group-hover:bg-[#74C63D]/30 transition-all"></div>
-                  <img src="https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?q=80&w=800&auto=format&fit=crop" alt="Tufting Process" className="relative rounded-2xl grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl" />
+                  <img 
+                    src="/lobo_tufting_/lobo_tufting__1688196492_3137142016581358514_47333694357.webp" 
+                    alt="Tufting Process" 
+                    className="relative rounded-2xl shadow-2xl w-full aspect-square object-cover transition-all duration-700 group-hover:shadow-xl group-hover:scale-105" 
+                    loading="lazy"
+                  />
               </div>
           </div>
       </section>
+
 
       {/* Quick CTA */}
       <section className="py-24 px-6 bg-[#74C63D]">
@@ -154,6 +197,8 @@ export const Home = () => {
               <h2 className="text-4xl md:text-6xl font-display font-bold text-black tracking-tighter">Ready to start your project?</h2>
               <a 
                 href={getWhatsAppLink("Hi LOBO! I'm ready to discuss a custom rug design.")}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-block px-12 py-5 bg-black text-white font-bold rounded-2xl hover:scale-105 transition-transform"
               >
                   Let's Chat on WhatsApp

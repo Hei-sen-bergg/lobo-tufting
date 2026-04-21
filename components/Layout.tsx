@@ -53,7 +53,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 top-[73px] bg-black p-6 space-y-6 flex flex-col items-center justify-center text-center animate-in fade-in slide-in-from-top duration-300">
+        <div className="md:hidden fixed left-0 right-0 top-[73px] z-[99] bg-black p-6 space-y-6 flex flex-col items-center justify-start pt-12 animate-in fade-in slide-in-from-top duration-300 w-full">
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -67,7 +67,7 @@ const Navbar = () => {
           <a 
             href={`https://wa.me/${WHATSAPP_NUMBER}`}
             onClick={() => setIsOpen(false)}
-            className="w-full py-4 bg-[#74C63D] text-black font-black uppercase rounded-2xl"
+            className="w-full py-4 bg-[#74C63D] text-black font-black uppercase text-center rounded-2xl mt-6"
           >
             WhatsApp Us
           </a>

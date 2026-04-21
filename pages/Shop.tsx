@@ -99,7 +99,7 @@ export const Shop = () => {
                     rel="noopener noreferrer"
                     className="inline-block text-[#74C63D] font-bold hover:underline"
                 >
-                    Start a custom commission →
+                    Start a custom commission
                 </a>
             </div>
         </div>

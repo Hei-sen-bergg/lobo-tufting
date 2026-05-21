@@ -227,7 +227,7 @@ export const CustomOrder = () => {
                         </div>
 
                         <div className="bg-gradient-to-r from-[#74C63D]/10 to-transparent border border-[#74C63D]/30 rounded-2xl p-8 space-y-4">
-                            <h3 className="font-bold text-lg">Why Custom Rugs?</h3>
+                            <h3 className="font-bold text-lg">Why Custom Rugs ?</h3>
                             <ul className="space-y-2 text-[#B8C0B8]">
                                 <li className="flex gap-3">
                                     <span className="text-[#74C63D] font-bold">→</span>

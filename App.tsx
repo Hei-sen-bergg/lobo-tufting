@@ -7,6 +7,7 @@ import { Shop } from './pages/Shop';
 import { Gallery } from './pages/Gallery';
 import { Workshop } from './pages/Workshop';
 import { About } from './pages/About';
+import { Accessories } from './pages/Accessories';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/products" element={<Shop />} />
+          <Route path="/accessories" element={<Accessories />} />
           <Route path="/workshops" element={<Workshop />} />
           <Route path="/gallery" element={<Gallery />} />
           

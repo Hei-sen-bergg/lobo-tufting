@@ -11,6 +11,7 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Shop', path: '/products' },
+    { name: 'Accessories', path: '/accessories' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Workshops', path: '/workshops' },
     { name: 'About', path: '/about' },
@@ -93,7 +94,8 @@ const Footer = () => {
         <div>
           <h4 className="text-white text-xs font-black uppercase tracking-widest mb-8">Navigation</h4>
           <ul className="space-y-4 text-sm text-[#7C857C] font-medium">
-            <li><Link to="/products" className="hover:text-[#74C63D]">Showcase</Link></li>
+            <li><Link to="/products" className="hover:text-[#74C63D]">Shop</Link></li>
+            <li><Link to="/accessories" className="hover:text-[#74C63D]">Accessories</Link></li>
             <li><Link to="/gallery" className="hover:text-[#74C63D]">Gallery</Link></li>
             <li><Link to="/workshops" className="hover:text-[#74C63D]">Workshops</Link></li>
             <li><Link to="/about" className="hover:text-[#74C63D]">About Us</Link></li>

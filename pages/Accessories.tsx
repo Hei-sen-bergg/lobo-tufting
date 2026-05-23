@@ -1,28 +1,27 @@
 
 import React, { useEffect } from 'react';
 import { ShoppingCart } from 'lucide-react';
-import { getWhatsAppLink, VIDEOS } from '../constants';
+import { getWhatsAppLink } from '../constants';
 import { useStaggeredChildren, useScrollFadeIn } from '../components/animations/ScrollAnimations';
 import { ImageCard } from '../components/ImageCard';
-import { VideoCard } from '../components/VideoCard';
 import { useSanityData } from '../src/sanity/hooks';
-import { PRODUCTS_QUERY, SHOP_PAGE_QUERY } from '../src/sanity/queries';
-import type { Product } from '../src/sanity/types';
-import { DEFAULT_PRODUCTS } from '../src/sanity/defaults/content';
+import { ACCESSORIES_PAGE_QUERY, ACCESSORIES_QUERY } from '../src/sanity/queries';
+import type { Accessory } from '../src/sanity/types';
+import { DEFAULT_ACCESSORIES } from '../src/sanity/defaults/content';
 import { withListDefaults } from '../src/sanity/merge';
-import { withShopPageDefaults } from '../src/sanity/pageDefaults';
+import { withAccessoriesPageDefaults } from '../src/sanity/pageDefaults';
 
-export const Shop = () => {
-    const { data: pageData } = useSanityData(SHOP_PAGE_QUERY);
-    const { data: products } = useSanityData<Product[]>(PRODUCTS_QUERY);
-    const page = withShopPageDefaults(pageData);
-    const displayProducts = withListDefaults(products, DEFAULT_PRODUCTS, [
+export const Accessories = () => {
+    const { data: pageData } = useSanityData(ACCESSORIES_PAGE_QUERY);
+    const { data: accessories } = useSanityData<Accessory[]>(ACCESSORIES_QUERY);
+    const page = withAccessoriesPageDefaults(pageData);
+    const displayItems = withListDefaults(accessories, DEFAULT_ACCESSORIES, [
       'title',
       'description',
       'category',
     ]);
 
-    const shopRef = useStaggeredChildren({
+    const gridRef = useStaggeredChildren({
         duration: 0.8,
         staggerDelay: 0.12,
         distance: 50,
@@ -33,14 +32,14 @@ export const Shop = () => {
     const ctaRef = useScrollFadeIn({ duration: 1, delay: 0, distance: 60 });
 
     useEffect(() => {
-        if (!shopRef.current) return;
-        shopRef.current.querySelectorAll('.product-card').forEach((card) => {
+        if (!gridRef.current) return;
+        gridRef.current.querySelectorAll('.accessory-card').forEach((card) => {
             card.classList.add('stagger-child');
         });
-    }, [displayProducts.length]);
+    }, [displayItems.length]);
 
     return (
-        <div ref={shopRef} className="py-32 px-6 max-w-7xl mx-auto space-y-16">
+        <div ref={gridRef} className="py-32 px-6 max-w-7xl mx-auto space-y-16">
             <div ref={titleRef} className="text-center space-y-4">
                 <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">
                     {page.headlineLine1} <br />
@@ -50,28 +49,30 @@ export const Shop = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
-                {displayProducts.map((product, idx) => (
-                    <div key={product._id} className="stagger-child product-card group">
+                {displayItems.map((item, idx) => (
+                    <div key={item._id} className="stagger-child accessory-card group">
                         <ImageCard
-                            src={product.imageUrl}
-                            alt={product.title}
-                            title={product.title}
-                            category={product.category}
+                            src={item.imageUrl}
+                            alt={item.title}
+                            title={item.title}
+                            category={item.category}
                             index={idx}
                         />
                         <div className="p-6 space-y-4 bg-[#0B0F0B] rounded-b-3xl">
-                            <div className="flex justify-between items-start">
+                            <div className="flex justify-between items-start gap-4">
                                 <div>
                                     <p className="text-[#7C857C] text-xs font-bold uppercase tracking-widest">
-                                        {product.category}
+                                        {item.category}
                                     </p>
-                                    <p className="text-[#B8C0B8] text-sm mt-1">{product.description}</p>
+                                    <p className="text-[#B8C0B8] text-sm mt-1">{item.description}</p>
                                 </div>
-                                <span className="text-2xl font-bold text-[#74C63D]">₹{product.price}</span>
+                                <span className="text-2xl font-bold text-[#74C63D] shrink-0">
+                                    ₹{item.price}
+                                </span>
                             </div>
                             <a
                                 href={getWhatsAppLink(
-                                    `Hi LOBO! I'm interested in the ${product.title} rug for ₹${product.price}. Is it still available?`
+                                    `Hi LOBO! I'm interested in ${item.title} (₹${item.price}). Is it available?`
                                 )}
                                 target="_blank"
                                 rel="noopener noreferrer"
@@ -84,23 +85,6 @@ export const Shop = () => {
                 ))}
             </div>
 
-            <div className="py-16 space-y-8">
-                <h2 className="text-4xl md:text-6xl font-display font-bold text-center">
-                    {page.videoSectionTitle}{' '}
-                    <span className="text-[#74C63D]">{page.videoSectionTitleAccent}</span>
-                </h2>
-                <p className="text-[#7C857C] text-center text-lg max-w-2xl mx-auto">
-                    {page.videoSectionSubtitle}
-                </p>
-                <div className="flex justify-center">
-                    <VideoCard
-                        src={VIDEOS.reel3}
-                        title="Studio Tour"
-                        category="Studio Highlights"
-                    />
-                </div>
-            </div>
-
             <div
                 ref={ctaRef}
                 className="mt-20 p-12 rounded-[3rem] bg-gradient-to-r from-[#0B0F0B] to-black border border-[#1C261C] text-center space-y-6"
@@ -108,14 +92,12 @@ export const Shop = () => {
                 <h2 className="text-3xl font-display font-bold">{page.ctaTitle}</h2>
                 <p className="text-[#7C857C]">{page.ctaDescription}</p>
                 <a
-                    href={getWhatsAppLink(
-                        "Hi LOBO! I checked your shop but I'd like to request a unique custom rug design."
-                    )}
+                    href={getWhatsAppLink('Hi LOBO! I need help choosing tufting accessories.')}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block text-[#74C63D] font-bold hover:underline"
+                    className="inline-block px-10 py-4 bg-[#74C63D] text-black font-bold rounded-xl hover:bg-[#8DFF4A] transition-all"
                 >
-                    {page.ctaLinkText}
+                    {page.ctaButtonText}
                 </a>
             </div>
         </div>

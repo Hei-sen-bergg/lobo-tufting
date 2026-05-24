@@ -7,12 +7,13 @@ import { useScrollFadeIn, useStaggeredChildren } from '../components/animations/
 import { VideoCard } from '../components/VideoCard';
 import { ImageCard } from '../components/ImageCard';
 import { useSanityData } from '../src/sanity/hooks';
-import { WORKSHOPS_QUERY, GALLERY_QUERY } from '../src/sanity/queries';
-import type { WorkshopItem, GalleryItem } from '../src/sanity/types';
+import { WORKSHOPS_QUERY, GALLERY_QUERY, WORKSHOP_PAGE_QUERY } from '../src/sanity/queries';
+import type { WorkshopItem, GalleryItem, WorkshopPageCopy } from '../src/sanity/types';
 
 export const Workshop = () => {
     const { data: workshopData } = useSanityData<WorkshopItem[]>(WORKSHOPS_QUERY);
     const { data: galleryData } = useSanityData<GalleryItem[]>(GALLERY_QUERY);
+    const { data: workshopPageData } = useSanityData<WorkshopPageCopy>(WORKSHOP_PAGE_QUERY);
     
     const sectionRef = useStaggeredChildren({
         duration: 0.8,
@@ -54,15 +55,22 @@ export const Workshop = () => {
 
     const displayGallery = galleryData || [];
 
+    const badgeText = workshopPageData?.badgeText || 'Workshops in Kerala';
+    const headlineLine1 = workshopPageData?.headlineLine1 || 'Become the';
+    const headlineLine2 = workshopPageData?.headlineLine2 || 'Artisan.';
+    const intro = workshopPageData?.intro || 'Ever wondered how those fluffy masterpieces are made? Join us in our Kodungallur studio and learn the addictive art of tufting.';
+    const gallerySectionTitle = workshopPageData?.gallerySectionTitle || 'What Students';
+    const gallerySectionTitleAccent = workshopPageData?.gallerySectionTitleAccent || 'Create';
+
     return (
         <div ref={sectionRef} className="py-32 px-6 max-w-7xl mx-auto space-y-24">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                 <div className="space-y-10">
                     <div ref={titleRef} className="space-y-4">
-                        <span className="inline-block px-4 py-1 bg-[#74C63D] text-black text-xs font-black rounded-full uppercase">Workshops in Kerala</span>
-                        <h1 className="text-6xl md:text-8xl font-display font-bold leading-none tracking-tighter">Become the <br /><span className="text-[#74C63D]">Artisan.</span></h1>
+                        <span className="inline-block px-4 py-1 bg-[#74C63D] text-black text-xs font-black rounded-full uppercase">{badgeText}</span>
+                        <h1 className="text-6xl md:text-8xl font-display font-bold leading-none tracking-tighter">{headlineLine1} <br /><span className="text-[#74C63D]">{headlineLine2}</span></h1>
                         <p className="text-[#B8C0B8] text-xl leading-relaxed">
-                            Ever wondered how those fluffy masterpieces are made? Join us in our Kodungallur studio and learn the addictive art of tufting. 
+                            {intro}
                         </p>
                     </div>
 
@@ -85,7 +93,7 @@ export const Workshop = () => {
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-4 px-10 py-5 bg-[#74C63D] text-black font-bold rounded-2xl hover:bg-[#8DFF4A] transition-all group"
                         >
-                            Inquire for Next Slot <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                            {workshopPageData?.ctaButtonText || 'Inquire for Next Slot'} <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
                         </a>
                     </div>
                 </div>
@@ -101,7 +109,7 @@ export const Workshop = () => {
 
             {/* Workshop Gallery */}
             <div className="space-y-12">
-                <h2 className="text-5xl md:text-7xl font-display font-bold text-center">What Students <span className="text-[#74C63D]">Create</span></h2>
+                <h2 className="text-5xl md:text-7xl font-display font-bold text-center">{gallerySectionTitle} <span className="text-[#74C63D]">{gallerySectionTitleAccent}</span></h2>
                 <div ref={imagesRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {displayGallery.slice(0, 3).map((item, idx) => (
                         <ImageCard

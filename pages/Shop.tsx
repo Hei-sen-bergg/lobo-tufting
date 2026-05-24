@@ -7,11 +7,12 @@ import { useStaggeredChildren, useScrollFadeIn } from '../components/animations/
 import { ImageCard } from '../components/ImageCard';
 import { VideoCard } from '../components/VideoCard';
 import { useSanityData } from '../src/sanity/hooks';
-import { PRODUCTS_QUERY } from '../src/sanity/queries';
-import type { Product } from '../src/sanity/types';
+import { PRODUCTS_QUERY, SHOP_PAGE_QUERY } from '../src/sanity/queries';
+import type { Product, ShopPageCopy } from '../src/sanity/types';
 
 export const Shop = () => {
     const { data: products } = useSanityData<Product[]>(PRODUCTS_QUERY);
+    const { data: shopPageData } = useSanityData<ShopPageCopy>(SHOP_PAGE_QUERY);
     
     const shopRef = useStaggeredChildren({
         duration: 0.8,
@@ -46,11 +47,15 @@ export const Shop = () => {
 
     const displayProducts = products || [];
 
+    const headlineLine1 = shopPageData?.headlineLine1 || 'Available';
+    const headlineLine2 = shopPageData?.headlineLine2 || 'Masterpieces.';
+    const subtitle = shopPageData?.subtitle || 'Ready-to-ship rugs handcrafted with premium materials. Exclusive drops.';
+
     return (
         <div ref={shopRef} className="py-32 px-6 max-w-7xl mx-auto space-y-16">
             <div ref={titleRef} className="text-center space-y-4">
-                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">Available <br /><span className="text-[#74C63D]">Masterpieces.</span></h1>
-                <p className="text-[#B8C0B8] text-xl max-w-2xl mx-auto">Ready-to-ship rugs handcrafted with premium materials. Exclusive drops.</p>
+                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">{headlineLine1} <br /><span className="text-[#74C63D]">{headlineLine2}</span></h1>
+                <p className="text-[#B8C0B8] text-xl max-w-2xl mx-auto">{subtitle}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 pt-10">
@@ -98,15 +103,15 @@ export const Shop = () => {
             </div>
 
             <div ref={ctaRef} className="mt-20 p-12 rounded-[3rem] bg-gradient-to-r from-[#0B0F0B] to-black border border-[#1C261C] text-center space-y-6">
-                <h2 className="text-3xl font-display font-bold">Don't see what you're looking for?</h2>
-                <p className="text-[#7C857C]">We specialize in one-of-a-kind custom orders tailored to your specifications.</p>
+                <h2 className="text-3xl font-display font-bold">{shopPageData?.ctaTitle || "Don't see what you're looking for?"}</h2>
+                <p className="text-[#7C857C]">{shopPageData?.ctaDescription || "We specialize in one-of-a-kind custom orders tailored to your specifications."}</p>
                 <a 
                     href={getWhatsAppLink("Hi LOBO! I checked your shop but I'd like to request a unique custom rug design.")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block text-[#74C63D] font-bold hover:underline"
                 >
-                    Start a custom commission
+                    {shopPageData?.ctaLinkText || 'Start a custom commission'}
                 </a>
             </div>
         </div>

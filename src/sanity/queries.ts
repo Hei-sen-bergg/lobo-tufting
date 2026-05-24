@@ -26,6 +26,20 @@ export const PRODUCTS_QUERY = groq`
   }
 `;
 
+export const ACCESSORIES_QUERY = groq`
+  *[_type == "accessory"] | order(sortOrder asc, _createdAt asc) {
+    _id,
+    title,
+    description,
+    price,
+    "imageUrl": image.asset->url,
+    "imageLqip": image.asset->metadata.lqip,
+    category,
+    inStock,
+    featured
+  }
+`;
+
 export const WORKSHOPS_QUERY = groq`
   *[_type == "workshopItem"] | order(startDate asc) {
     _id,
@@ -43,26 +57,98 @@ export const WORKSHOPS_QUERY = groq`
 `;
 
 export const ABOUT_QUERY = groq`
-  *[_type == "about"][0] {
+  *[_type == "about"] | order(_updatedAt desc)[0] {
     _id,
-    title,
+    headlineLine1,
+    headlineLine2,
     description,
-    story,
     mission,
-    values[],
-    "imageUrl": image.asset->url,
-    achievements[]
+    sustainability,
+    statsSectionTitle,
+    visitTitle,
+    visitDescription,
+    visitButtonText,
+    "imageUrl": image.asset->url
   }
 `;
 
-export const HOME_HERO_QUERY = groq`
-  *[_type == "hero"][0] {
+export const HOME_PAGE_QUERY = groq`
+  *[_type == "hero"] | order(_updatedAt desc)[0] {
     _id,
     title,
+    badgeText,
+    headlineLine1,
+    headlineLine2,
     subtitle,
     "imageUrl": image.asset->url,
-    cta,
-    ctaLink
+    primaryButtonText,
+    secondaryButtonText,
+    howItWorksTitle,
+    howItWorksSubtitle,
+    steps[] { title, description },
+    teaserLine1,
+    teaserLine2,
+    teaserDescription,
+    stat1Value,
+    stat1Label,
+    stat2Value,
+    stat2Label,
+    ctaTitle,
+    ctaButtonText
+  }
+`;
+
+export const HOME_HERO_QUERY = HOME_PAGE_QUERY;
+
+export const SHOP_PAGE_QUERY = groq`
+  *[_type == "shopPage"] | order(_updatedAt desc)[0] {
+    _id,
+    headlineLine1,
+    headlineLine2,
+    subtitle,
+    videoSectionTitle,
+    videoSectionTitleAccent,
+    videoSectionSubtitle,
+    ctaTitle,
+    ctaDescription,
+    ctaLinkText
+  }
+`;
+
+export const GALLERY_PAGE_QUERY = groq`
+  *[_type == "galleryPage"] | order(_updatedAt desc)[0] {
+    _id,
+    headlineLine1,
+    headlineLine2,
+    subtitle,
+    bottomText,
+    bottomButtonText
+  }
+`;
+
+export const WORKSHOP_PAGE_QUERY = groq`
+  *[_type == "workshopPage"] | order(_updatedAt desc)[0] {
+    _id,
+    badgeText,
+    headlineLine1,
+    headlineLine2,
+    intro,
+    features[] { title, description },
+    ctaButtonText,
+    gallerySectionTitle,
+    gallerySectionTitleAccent
+  }
+`;
+
+export const ACCESSORIES_PAGE_QUERY = groq`
+  *[_type == "accessoriesPage"] | order(_updatedAt desc)[0] {
+    _id,
+    headlineLine1,
+    headlineLine2,
+    subtitle,
+    ctaTitle,
+    ctaDescription,
+    ctaButtonText
   }
 `;
 

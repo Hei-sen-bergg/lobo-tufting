@@ -55,15 +55,21 @@ export const About = () => {
         return () => ctx.revert();
     }, []);
 
-    const title = aboutData?.title || 'The LOBO Origin.';
+    const headlineLine1 = aboutData?.headlineLine1 || 'The LOBO';
+    const headlineLine2 = aboutData?.headlineLine2 || 'Origin.';
     const description = aboutData?.description || 'Born out of an obsession for textures and pop culture, LOBO Tufting started in a small garage in Kodungallur.';
     const mission = aboutData?.mission || 'We don\'t just sell rugs; we sell tactile stories. Our mission is to bridge the gap between digital art and physical warmth, one stitch at a time.';
+    const sustainability = aboutData?.sustainability || 'We source New Zealand imported wool and use eco-friendly adhesives, ensuring that our footprints are as soft on the planet as our rugs are on your feet.';
     const backgroundImage = aboutData?.imageUrl || '/lobo_tufting_/lobo_tufting__1688196806_3137144649102782183_47333694357.webp';
+    const statsSectionTitle = aboutData?.statsSectionTitle || 'By The Numbers';
+    const visitTitle = aboutData?.visitTitle || 'Visit the Studio';
+    const visitDescription = aboutData?.visitDescription || 'Located in the heart of Kodungallur, Kerala. By appointment only.';
+    const visitButtonText = aboutData?.visitButtonText || 'Book a Studio Visit';
 
     return (
         <div ref={aboutRef} className="py-32 px-6 max-w-4xl mx-auto space-y-24">
             <div ref={titleRef} className="space-y-6 text-center">
-                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">The LOBO <br /><span className="text-[#74C63D]">Origin.</span></h1>
+                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">{headlineLine1} <br /><span className="text-[#74C63D]">{headlineLine2}</span></h1>
                 <p className="text-[#B8C0B8] text-xl leading-relaxed">
                     {description}
                 </p>
@@ -90,7 +96,7 @@ export const About = () => {
                         <div className="space-y-4">
                             <h3 className="text-[#74C63D] font-bold uppercase tracking-widest text-xs">Sustainability</h3>
                             <p className="text-white text-lg leading-relaxed">
-                                We source New Zealand imported wool and use eco-friendly adhesives, ensuring that our footprints are as soft on the planet as our rugs are on your feet.
+                                {sustainability}
                             </p>
                         </div>
                     </div>
@@ -106,7 +112,7 @@ export const About = () => {
 
             {/* Stats Section */}
             <div className="py-16 space-y-12" data-stats-container>
-                <h2 className="text-5xl md:text-7xl font-display font-bold text-center">By The Numbers</h2>
+                <h2 className="text-5xl md:text-7xl font-display font-bold text-center">{statsSectionTitle}</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                     <StatsCounter endValue={200} label="Rugs Crafted" suffix="+" index={0} />
                     <StatsCounter endValue={100} label="Happy Clients" suffix="%" index={1} />
@@ -116,15 +122,15 @@ export const About = () => {
             </div>
 
             <div ref={ctaRef} className="p-12 rounded-[3rem] bg-[#0B0F0B] border border-[#1C261C] text-center space-y-6">
-                <h2 className="text-3xl font-display font-bold">Visit the Studio</h2>
-                <p className="text-[#7C857C]">Located in the heart of Kodungallur, Kerala. By appointment only.</p>
+                <h2 className="text-3xl font-display font-bold">{visitTitle}</h2>
+                <p className="text-[#7C857C]">{visitDescription}</p>
                 <a 
                     href={getWhatsAppLink("Hi LOBO! I'd like to book a studio visit.")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block px-10 py-4 bg-[#74C63D] text-black font-bold rounded-2xl hover:bg-[#8DFF4A] transition-all"
                 >
-                    Book a Studio Visit
+                    {visitButtonText}
                 </a>
             </div>
         </div>

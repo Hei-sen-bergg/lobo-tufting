@@ -48,6 +48,9 @@ const Hero = () => {
     const title = heroData?.title || 'ART YOU CAN WALK ON.';
     const subtitle = heroData?.subtitle || 'Premium custom-tufted rugs for your space. Anime, logos, or abstract art—we bring your floors to life.';
     const backgroundImage = heroData?.imageUrl || '/lobo_tufting_/lobo_tufting__1687850774_3134241923196813278_47333694357.webp';
+    const badgeText = heroData?.badgeText || 'Not just made, felt';
+    const primaryButtonText = heroData?.primaryButtonText || 'Custom Inquiry';
+    const secondaryButtonText = heroData?.secondaryButtonText || 'Browse Collection';
 
     return (
         <div ref={heroRef} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden px-6 pt-20">
@@ -66,7 +69,7 @@ const Hero = () => {
             
             <div className="max-w-5xl text-center space-y-8">
                 <div className="hero-sub inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#1C261C] border border-[#74C63D]/20 text-[#74C63D] text-sm font-medium">
-                   Not just made, felt
+                   {badgeText}
                 </div>
                 <h1 className="hero-title text-6xl md:text-9xl font-display font-bold tracking-tighter leading-none text-white">
                     ART YOU CAN <br /> <span className="text-[#74C63D]">WALK ON.</span>
@@ -81,10 +84,10 @@ const Hero = () => {
                         rel="noopener noreferrer"
                         className="hero-btn w-full sm:w-auto px-10 py-5 bg-[#74C63D] text-black font-bold rounded-xl hover:bg-[#8DFF4A] transition-all"
                     >
-                        Custom Inquiry
+                        {primaryButtonText}
                     </a>
                     <Link to="/products" className="hero-btn w-full sm:w-auto px-10 py-5 bg-transparent border-2 border-[#74C63D] text-[#74C63D] font-bold rounded-xl hover:bg-[#74C63D] hover:text-black transition-all">
-                        Browse Collection
+                        {secondaryButtonText}
                     </Link>
                 </div>
             </div>
@@ -92,7 +95,7 @@ const Hero = () => {
     );
 };
 
-const HowItWorks = () => {
+const HowItWorks = ({ heroData }: { heroData: Hero | null }) => {
     const sectionRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -120,18 +123,22 @@ const HowItWorks = () => {
         return () => ctx.revert();
     }, []);
 
-    const steps = [
+    const defaultSteps = [
         { icon: <Palette size={32} />, title: 'Conceptualize', desc: 'Share your design, favorite anime character, or logo via WhatsApp.' },
         { icon: <Users size={32} />, title: 'Consultation', desc: 'We help you select the perfect size, wool type, and vibrant color palette.' },
         { icon: <ShieldCheck size={32} />, title: 'Hand-Tufted', desc: 'Our artisans meticulously craft your rug, ensuring durability and detail.' },
     ];
 
+    const steps = heroData?.steps || defaultSteps;
+    const howItWorksTitle = heroData?.howItWorksTitle || 'The LOBO Way';
+    const howItWorksSubtitle = heroData?.howItWorksSubtitle || 'Bespoke craftsmanship from Kerala to your doorstep.';
+
     return (
         <section ref={sectionRef} className="py-24 px-6 bg-[#0B0F0B]">
             <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16 space-y-4">
-                    <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight">The LOBO Way</h2>
-                    <p className="text-[#7C857C] text-lg">Bespoke craftsmanship from Kerala to your doorstep.</p>
+                    <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tight">{howItWorksTitle}</h2>
+                    <p className="text-[#7C857C] text-lg">{howItWorksSubtitle}</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {steps.map((step, idx) => (
@@ -150,6 +157,8 @@ const HowItWorks = () => {
 };
 
 export const Home = () => {
+  const { data: heroData } = useSanityData<Hero>(HOME_HERO_QUERY);
+  
   const teaserTitleRef = useScrollFadeIn({
     duration: 1,
     delay: 0,
@@ -165,7 +174,7 @@ export const Home = () => {
   return (
     <div className="space-y-0">
       <Hero />
-      <HowItWorks />
+      <HowItWorks heroData={heroData} />
       
       {/* Visual Teaser */}
       <section className="py-32 px-6 overflow-hidden">

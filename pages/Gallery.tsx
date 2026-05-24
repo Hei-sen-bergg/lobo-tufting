@@ -5,12 +5,13 @@ import { VideoCard } from '../components/VideoCard';
 import { ImageCard } from '../components/ImageCard';
 import { useStaggeredChildren, useScrollFadeIn } from '../components/animations/ScrollAnimations';
 import { useSanityData } from '../src/sanity/hooks';
-import { GALLERY_QUERY } from '../src/sanity/queries';
-import type { GalleryItem } from '../src/sanity/types';
+import { GALLERY_QUERY, GALLERY_PAGE_QUERY } from '../src/sanity/queries';
+import type { GalleryItem, GalleryPageCopy } from '../src/sanity/types';
 
 export const Gallery = () => {
     const [filter, setFilter] = useState('all');
     const { data: galleryData, loading } = useSanityData<GalleryItem[]>(GALLERY_QUERY);
+    const { data: galleryPageData } = useSanityData<GalleryPageCopy>(GALLERY_PAGE_QUERY);
     
     const galleryRef = useStaggeredChildren({
         duration: 0.8,
@@ -40,8 +41,8 @@ export const Gallery = () => {
     return (
         <div ref={galleryRef} className="py-32 px-6 max-w-7xl mx-auto space-y-16">
             <div ref={titleRef} className="text-center space-y-4">
-                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">Tufted <br /><span className="text-[#74C63D]">Archives.</span></h1>
-                <p className="text-[#B8C0B8] text-xl max-w-2xl mx-auto">A curation of our past works, custom commissions, and creative experiments.</p>
+                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">{galleryPageData?.headlineLine1 || 'Tufted'} <br /><span className="text-[#74C63D]">{galleryPageData?.headlineLine2 || 'Archives.'}</span></h1>
+                <p className="text-[#B8C0B8] text-xl max-w-2xl mx-auto">{galleryPageData?.subtitle || 'A curation of our past works, custom commissions, and creative experiments.'}</p>
             </div>
 
             {/* Filter Buttons */}
@@ -90,12 +91,12 @@ export const Gallery = () => {
             </div>
 
             <div className="text-center pt-20 space-y-6">
-                <p className="text-[#B8C0B8] text-lg">Want something similar for your space?</p>
+                <p className="text-[#B8C0B8] text-lg">{galleryPageData?.bottomText || 'Want something similar for your space?'}</p>
                 <a 
                     href="https://wa.me/919526276687?text=Hi%20LOBO!%20I%20want%20to%20recreate%20a%20rug%20similar%20to%20one%20in%20your%20gallery."
                     className="inline-block px-12 py-5 bg-[#74C63D] text-black font-bold rounded-2xl hover:bg-[#8DFF4A] transition-all"
                 >
-                    Request a Recreation
+                    {galleryPageData?.bottomButtonText || 'Request a Recreation'}
                 </a>
             </div>
         </div>

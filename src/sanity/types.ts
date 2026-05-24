@@ -5,6 +5,7 @@ export interface SanityImage {
 
 export interface GalleryItem extends SanityImage {
   _id: string;
+  id?: string;
   title: string;
   description: string;
   category: string;
@@ -12,16 +13,6 @@ export interface GalleryItem extends SanityImage {
 }
 
 export interface Product extends SanityImage {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  category: string;
-  inStock: boolean;
-  featured: boolean;
-}
-
-export interface Accessory extends SanityImage {
   _id: string;
   title: string;
   description: string;
@@ -44,92 +35,25 @@ export interface WorkshopItem extends SanityImage {
   featured: boolean;
 }
 
-export interface AboutPage extends SanityImage {
+export interface About extends SanityImage {
   _id: string;
-  headlineLine1: string;
-  headlineLine2: string;
+  title: string;
   description: string;
+  story: string;
   mission: string;
-  sustainability: string;
-  statsSectionTitle: string;
-  visitTitle: string;
-  visitDescription: string;
-  visitButtonText: string;
+  values: string[];
+  achievements: Array<{
+    title: string;
+    value: string;
+  }>;
 }
 
-export interface HomeStep {
-  title: string;
-  description: string;
-}
-
-export interface HomePage extends SanityImage {
+export interface Hero extends SanityImage {
   _id: string;
-  title?: string;
-  badgeText?: string;
-  headlineLine1?: string;
-  headlineLine2?: string;
-  subtitle?: string;
-  primaryButtonText?: string;
-  secondaryButtonText?: string;
-  howItWorksTitle?: string;
-  howItWorksSubtitle?: string;
-  steps?: HomeStep[];
-  teaserLine1?: string;
-  teaserLine2?: string;
-  teaserDescription?: string;
-  stat1Value?: string;
-  stat1Label?: string;
-  stat2Value?: string;
-  stat2Label?: string;
-  ctaTitle?: string;
-  ctaButtonText?: string;
-}
-
-export type Hero = HomePage;
-
-export interface ShopPageCopy {
-  headlineLine1: string;
-  headlineLine2: string;
-  subtitle: string;
-  videoSectionTitle: string;
-  videoSectionTitleAccent: string;
-  videoSectionSubtitle: string;
-  ctaTitle: string;
-  ctaDescription: string;
-  ctaLinkText: string;
-}
-
-export interface GalleryPageCopy {
-  headlineLine1: string;
-  headlineLine2: string;
-  subtitle: string;
-  bottomText: string;
-  bottomButtonText: string;
-}
-
-export interface WorkshopFeature {
   title: string;
-  description: string;
-}
-
-export interface WorkshopPageCopy {
-  badgeText: string;
-  headlineLine1: string;
-  headlineLine2: string;
-  intro: string;
-  features: WorkshopFeature[];
-  ctaButtonText: string;
-  gallerySectionTitle: string;
-  gallerySectionTitleAccent: string;
-}
-
-export interface AccessoriesPageCopy {
-  headlineLine1: string;
-  headlineLine2: string;
   subtitle: string;
-  ctaTitle: string;
-  ctaDescription: string;
-  ctaButtonText: string;
+  cta: string;
+  ctaLink: string;
 }
 
 export interface Testimonial extends SanityImage {
@@ -153,6 +77,3 @@ export interface Settings {
     url: string;
   }>;
 }
-
-/** @deprecated Use AboutPage */
-export type About = AboutPage;

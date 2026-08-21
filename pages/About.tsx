@@ -1,24 +1,24 @@
-
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { useScrollFadeIn } from '../components/animations/ScrollAnimations';
 import { VIDEOS, getWhatsAppLink } from '../constants';
 import { VideoCard } from '../components/VideoCard';
 import { StatsCounter } from '../components/StatsCounter';
+import { PageSkeleton } from '../components/LoadingSkeleton';
 import { useSanityData } from '../src/sanity/hooks';
 import { ABOUT_QUERY } from '../src/sanity/queries';
 import type { About as AboutType } from '../src/sanity/types';
 
 export const About = () => {
     const aboutRef = useRef<HTMLDivElement>(null);
-    const { data: aboutData } = useSanityData<AboutType>(ABOUT_QUERY);
-    
+    const { data: aboutData, loading } = useSanityData<AboutType>(ABOUT_QUERY);
+
     const titleRef = useScrollFadeIn({
         duration: 1.2,
         delay: 0,
         distance: 80
     });
-    
+
     const contentRef = useScrollFadeIn({
         duration: 1,
         delay: 0.2,
@@ -55,55 +55,58 @@ export const About = () => {
         return () => ctx.revert();
     }, []);
 
-    const headlineLine1 = aboutData?.headlineLine1 || 'The LOBO';
-    const headlineLine2 = aboutData?.headlineLine2 || 'Origin.';
-    const description = aboutData?.description || 'Born out of an obsession for textures and pop culture, LOBO Tufting started in a small garage in Kodungallur.';
-    const mission = aboutData?.mission || 'We don\'t just sell rugs; we sell tactile stories. Our mission is to bridge the gap between digital art and physical warmth, one stitch at a time.';
-    const sustainability = aboutData?.sustainability || 'We source New Zealand imported wool and use eco-friendly adhesives, ensuring that our footprints are as soft on the planet as our rugs are on your feet.';
-    const backgroundImage = aboutData?.imageUrl || '/lobo_tufting_/lobo_tufting__1688196806_3137144649102782183_47333694357.webp';
-    const statsSectionTitle = aboutData?.statsSectionTitle || 'By The Numbers';
-    const visitTitle = aboutData?.visitTitle || 'Visit the Studio';
-    const visitDescription = aboutData?.visitDescription || 'Located in the heart of Kodungallur, Kerala. By appointment only.';
-    const visitButtonText = aboutData?.visitButtonText || 'Book a Studio Visit';
+    if (loading) {
+        return <PageSkeleton />;
+    }
+
+    const stats = aboutData?.stats ?? [];
 
     return (
         <div ref={aboutRef} className="py-32 px-6 max-w-4xl mx-auto space-y-24">
             <div ref={titleRef} className="space-y-6 text-center">
-                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">{headlineLine1} <br /><span className="text-[#74C63D]">{headlineLine2}</span></h1>
-                <p className="text-[#B8C0B8] text-xl leading-relaxed">
-                    {description}
-                </p>
+                <h1 className="text-6xl md:text-8xl font-display font-bold tracking-tighter">{aboutData?.headlineLine1} <br /><span className="text-[#74C63D]">{aboutData?.headlineLine2}</span></h1>
+                {aboutData?.description ? (
+                    <p className="text-[#B8C0B8] text-xl leading-relaxed">
+                        {aboutData.description}
+                    </p>
+                ) : null}
             </div>
 
             <div ref={imageRef} className="space-y-12">
-                <div className="aspect-video rounded-[3rem] overflow-hidden border border-[#1C261C]">
-                    <img 
-                        src={backgroundImage} 
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" 
-                        alt="Studio" 
-                        loading="lazy"
-                    />
-                </div>
-                
+                {aboutData?.imageUrl ? (
+                    <div className="aspect-video rounded-[3rem] overflow-hidden border border-[#1C261C]">
+                        <img
+                            src={aboutData.imageUrl}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                            alt="Studio"
+                            loading="lazy"
+                        />
+                    </div>
+                ) : null}
+
                 <div ref={contentRef} className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6">
-                        <div className="space-y-4">
-                            <h3 className="text-[#74C63D] font-bold uppercase tracking-widest text-xs">Our Mission</h3>
-                            <p className="text-white text-lg leading-relaxed">
-                                {mission}
-                            </p>
-                        </div>
-                        <div className="space-y-4">
-                            <h3 className="text-[#74C63D] font-bold uppercase tracking-widest text-xs">Sustainability</h3>
-                            <p className="text-white text-lg leading-relaxed">
-                                {sustainability}
-                            </p>
-                        </div>
+                        {aboutData?.mission ? (
+                            <div className="space-y-4">
+                                <h3 className="text-[#74C63D] font-bold uppercase tracking-widest text-xs">Our Mission</h3>
+                                <p className="text-white text-lg leading-relaxed">
+                                    {aboutData.mission}
+                                </p>
+                            </div>
+                        ) : null}
+                        {aboutData?.sustainability ? (
+                            <div className="space-y-4">
+                                <h3 className="text-[#74C63D] font-bold uppercase tracking-widest text-xs">Sustainability</h3>
+                                <p className="text-white text-lg leading-relaxed">
+                                    {aboutData.sustainability}
+                                </p>
+                            </div>
+                        ) : null}
                     </div>
                     <div>
-                        <VideoCard 
-                            src={VIDEOS.reel4} 
-                            title="The Process" 
+                        <VideoCard
+                            src={VIDEOS.reel4}
+                            title="The Process"
                             category="Behind the Scenes"
                         />
                     </div>
@@ -111,28 +114,47 @@ export const About = () => {
             </div>
 
             {/* Stats Section */}
-            <div className="py-16 space-y-12" data-stats-container>
-                <h2 className="text-5xl md:text-7xl font-display font-bold text-center">{statsSectionTitle}</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    <StatsCounter endValue={200} label="Rugs Crafted" suffix="+" index={0} />
-                    <StatsCounter endValue={100} label="Happy Clients" suffix="%" index={1} />
-                    <StatsCounter endValue={4} label="Years Active" suffix="+" index={2} />
-                    <StatsCounter endValue={1000} label="Hours Invested" suffix="+" index={3} />
+            {(aboutData?.statsSectionTitle || stats.length > 0) && (
+                <div className="py-16 space-y-12" data-stats-container>
+                    {aboutData?.statsSectionTitle ? (
+                        <h2 className="text-5xl md:text-7xl font-display font-bold text-center">{aboutData.statsSectionTitle}</h2>
+                    ) : null}
+                    {stats.length > 0 && (
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                            {stats.map((s, i) => (
+                                <StatsCounter
+                                    key={i}
+                                    endValue={s.value ?? 0}
+                                    label={s.label ?? ''}
+                                    suffix={s.suffix ?? ''}
+                                    index={i}
+                                />
+                            ))}
+                        </div>
+                    )}
                 </div>
-            </div>
+            )}
 
-            <div ref={ctaRef} className="p-12 rounded-[3rem] bg-[#0B0F0B] border border-[#1C261C] text-center space-y-6">
-                <h2 className="text-3xl font-display font-bold">{visitTitle}</h2>
-                <p className="text-[#7C857C]">{visitDescription}</p>
-                <a 
-                    href={getWhatsAppLink("Hi LOBO! I'd like to book a studio visit.")}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-10 py-4 bg-[#74C63D] text-black font-bold rounded-2xl hover:bg-[#8DFF4A] transition-all"
-                >
-                    {visitButtonText}
-                </a>
-            </div>
+            {(aboutData?.visitTitle || aboutData?.visitDescription || aboutData?.visitButtonText) && (
+                <div ref={ctaRef} className="p-12 rounded-[3rem] bg-[#0B0F0B] border border-[#1C261C] text-center space-y-6">
+                    {aboutData?.visitTitle ? (
+                        <h2 className="text-3xl font-display font-bold">{aboutData.visitTitle}</h2>
+                    ) : null}
+                    {aboutData?.visitDescription ? (
+                        <p className="text-[#7C857C]">{aboutData.visitDescription}</p>
+                    ) : null}
+                    {aboutData?.visitButtonText ? (
+                        <a
+                            href={getWhatsAppLink("Hi LOBO! I'd like to book a studio visit.")}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block px-10 py-4 bg-[#74C63D] text-black font-bold rounded-2xl hover:bg-[#8DFF4A] transition-all"
+                        >
+                            {aboutData.visitButtonText}
+                        </a>
+                    ) : null}
+                </div>
+            )}
         </div>
     );
 };

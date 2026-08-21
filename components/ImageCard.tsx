@@ -6,6 +6,7 @@ interface ImageCardProps {
   alt: string;
   title?: string;
   category?: string;
+  description?: string;
   index?: number;
   rounded?: boolean;
 }
@@ -15,6 +16,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
   alt,
   title,
   category,
+  description,
   index = 0,
   rounded = true
 }) => {
@@ -56,7 +58,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
 
       if (imageRef.current) {
         gsap.to(imageRef.current, {
-          brightness: 1.1,
+          filter: 'brightness(1.1)',
           duration: 0.4,
           ease: 'power2.out'
         });
@@ -74,7 +76,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
 
       if (imageRef.current) {
         gsap.to(imageRef.current, {
-          brightness: 1,
+          filter: 'brightness(1)',
           duration: 0.4,
           ease: 'power2.out'
         });
@@ -113,7 +115,7 @@ export const ImageCard: React.FC<ImageCardProps> = ({
       />
 
       {/* Overlay */}
-      {(title || category) && (
+      {(title || category || description) && (
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 p-6 flex flex-col justify-end">
           {category && (
             <span className="text-[#74C63D] text-xs font-bold uppercase tracking-widest mb-2">
@@ -121,6 +123,9 @@ export const ImageCard: React.FC<ImageCardProps> = ({
             </span>
           )}
           {title && <h3 className="text-white font-bold text-lg">{title}</h3>}
+          {description && (
+            <p className="text-[#B8C0B8] text-sm mt-1 line-clamp-2">{description}</p>
+          )}
         </div>
       )}
     </div>

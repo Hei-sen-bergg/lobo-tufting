@@ -152,6 +152,13 @@ export default defineType({
       fieldset: 'teaser',
       initialValue: 'Handmade',
     }),
+    defineField({
+      name: 'teaserImage',
+      title: 'Teaser image',
+      type: 'image',
+      fieldset: 'teaser',
+      options: { hotspot: true },
+    }),
 
     defineField({
       name: 'ctaTitle',

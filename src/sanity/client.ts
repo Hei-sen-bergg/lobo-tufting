@@ -13,7 +13,7 @@ export const sanityClient = createClient({
   projectId: projectId || '',
   dataset,
   apiVersion: '2024-05-20',
-  useCdn: true,
+  useCdn: false,
 });
 
 export const groq = String.raw;

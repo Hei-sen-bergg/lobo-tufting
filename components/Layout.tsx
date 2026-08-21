@@ -1,12 +1,27 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Instagram, Twitter, MessageCircle } from 'lucide-react';
-import { COLORS, WHATSAPP_NUMBER } from '../constants';
+import { Menu, X, Instagram, Facebook, Youtube, Twitter, MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
+import { useSanityData } from '../src/sanity/hooks';
+import { SETTINGS_QUERY } from '../src/sanity/queries';
+import type { Settings } from '../src/sanity/types';
+import { ChatLauncher } from './ChatLauncher';
 
-const Navbar = () => {
+const SOCIAL_ICONS: Record<string, React.ReactNode> = {
+  instagram: <Instagram size={20} />,
+  facebook: <Facebook size={20} />,
+  youtube: <Youtube size={20} />,
+  twitter: <Twitter size={20} />,
+  x: <Twitter size={20} />,
+  whatsapp: <MessageCircle size={20} />,
+};
+
+const waLink = (phone: string, message: string) =>
+  `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+const Navbar = ({ settings }: { settings: Settings | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const phone = settings?.phoneNumber?.trim();
 
   const navLinks = [
     { name: 'Home', path: '/' },
@@ -38,12 +53,14 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <a 
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            className="px-6 py-2.5 bg-[#1C261C] text-[#74C63D] text-xs font-black uppercase rounded-full hover:bg-[#74C63D] hover:text-black transition-all"
-          >
-            Inquire
-          </a>
+          {phone ? (
+            <a
+              href={waLink(phone, 'Hi LOBO! I have an inquiry.')}
+              className="px-6 py-2.5 bg-[#1C261C] text-[#74C63D] text-xs font-black uppercase rounded-full hover:bg-[#74C63D] hover:text-black transition-all"
+            >
+              Inquire
+            </a>
+          ) : null}
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -65,20 +82,24 @@ const Navbar = () => {
               {link.name}
             </Link>
           ))}
-          <a 
-            href={`https://wa.me/${WHATSAPP_NUMBER}`}
-            onClick={() => setIsOpen(false)}
-            className="w-full py-4 bg-[#74C63D] text-black font-black uppercase text-center rounded-2xl mt-6"
-          >
-            WhatsApp Us
-          </a>
+          {phone ? (
+            <a
+              href={waLink(phone, 'Hi LOBO! I have an inquiry.')}
+              onClick={() => setIsOpen(false)}
+              className="w-full py-4 bg-[#74C63D] text-black font-black uppercase text-center rounded-2xl mt-6"
+            >
+              WhatsApp Us
+            </a>
+          ) : null}
         </div>
       )}
     </nav>
   );
 };
 
-const Footer = () => {
+const Footer = ({ settings }: { settings: Settings | null }) => {
+  const socialLinks = settings?.socialLinks ?? [];
+
   return (
     <footer className="bg-[#0B0F0B] border-t border-[#1C261C] py-20 px-6 mt-20">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16">
@@ -86,9 +107,11 @@ const Footer = () => {
           <div className="text-[#74C63D] font-display text-3xl font-bold tracking-tighter">
             LOBO <span className="text-white">TUFTING</span>
           </div>
-          <p className="text-[#7C857C] leading-relaxed">
-            Crafting premium handmade rugs that transform spaces into experiences. Based in Kodungallur, Kerala.
-          </p>
+          {settings?.siteDescription ? (
+            <p className="text-[#7C857C] leading-relaxed">
+              {settings.siteDescription}
+            </p>
+          ) : null}
         </div>
 
         <div>
@@ -104,23 +127,50 @@ const Footer = () => {
 
         <div>
           <h4 className="text-white text-xs font-black uppercase tracking-widest mb-8">Social</h4>
-          <div className="flex gap-4">
-            <a href="https://www.instagram.com/lobo_tufting_/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
-              <Instagram size={20} />
-            </a>
-            {/* <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
-              <Twitter size={20} />
-            </a> */}
+          <div className="flex gap-4 flex-wrap">
+            {socialLinks.map((link, i) => {
+              const platform = link.platform?.toLowerCase();
+              return (
+                <a
+                  key={`${platform}-${i}`}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all"
+                  aria-label={link.platform}
+                >
+                  {SOCIAL_ICONS[platform] || <MessageCircle size={20} />}
+                </a>
+              );
+            })}
           </div>
         </div>
 
         <div>
           <h4 className="text-white text-xs font-black uppercase tracking-widest mb-8">Studio</h4>
-          <p className="text-[#7C857C] text-sm leading-relaxed">
-            Kodungallur, Kerala, India<br />
-            PIN: 680667<br />
-            hello@lobotufting.com
-          </p>
+          <div className="space-y-3 text-[#7C857C] text-sm leading-relaxed">
+            {settings?.address ? (
+              <p className="flex items-start gap-2">
+                <MapPin size={16} className="mt-0.5 shrink-0 text-[#74C63D]" />
+                <span className="whitespace-pre-line">{settings.address}</span>
+              </p>
+            ) : null}
+            {settings?.contactEmail ? (
+              <p className="flex items-center gap-2">
+                <Mail size={16} className="shrink-0 text-[#74C63D]" />
+                <a href={`mailto:${settings.contactEmail}`} className="hover:text-[#74C63D]">{settings.contactEmail}</a>
+              </p>
+            ) : null}
+            {settings?.phoneNumber ? (
+              <p className="flex items-center gap-2">
+                <Phone size={16} className="shrink-0 text-[#74C63D]" />
+                <span>+{settings.phoneNumber}</span>
+              </p>
+            ) : null}
+            {settings?.hours ? (
+              <p className="whitespace-pre-line">{settings.hours}</p>
+            ) : null}
+          </div>
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-20 pt-10 border-t border-[#1C261C] text-center text-[#7C857C] text-[10px] uppercase tracking-widest">
@@ -130,48 +180,47 @@ const Footer = () => {
   );
 };
 
-const FloatingActionButtons = () => {
-    return (
-        <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4 items-center">
-            {/* Instagram Button */}
-            <a 
-                href="https://www.instagram.com/lobo_tufting_/"
-                target="_blank"
-                rel="noopener noreferrer"
-className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all"                aria-label="Follow on Instagram"
-            >
-                <Instagram size={32} fill="" />
-            </a>
+const FloatingActionButtons = ({ settings }: { settings: Settings | null }) => {
+  const instagramUrl = settings?.socialLinks?.find(
+    (l) => l.platform?.toLowerCase() === 'instagram'
+  )?.url;
+  const phone = settings?.phoneNumber?.trim();
 
-             {/* <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
-              <Instagram size={20} />
-            </a>
-            <a href="#" className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all">
-              <Twitter size={20} />
-            </a> */}
+  return (
+    <div className="fixed bottom-8 right-8 z-[100] flex flex-col gap-4 items-center">
+      {instagramUrl ? (
+        <a
+          href={instagramUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all"
+          aria-label="Follow on Instagram"
+        >
+          <Instagram size={20} />
+        </a>
+      ) : null}
 
-
-            {/* WhatsApp Button */}
-            <a 
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-[#1C261C] rounded-xl flex items-center justify-center text-[#74C63D] hover:bg-[#74C63D] hover:text-black transition-all"
-                aria-label="Contact on WhatsApp"
-            >
-                <MessageCircle size={32} fill="" />
-            </a>
-        </div>
-    )
-}
+      {phone ? (
+        <ChatLauncher
+          phoneNumber={phone}
+          questions={settings?.chatQuickQuestions}
+        />
+      ) : null}
+    </div>
+  );
+};
 
 export const Layout = ({ children }: { children?: React.ReactNode }) => {
+  const { data } = useSanityData<Settings>(SETTINGS_QUERY);
+
+  const settings = data ?? null;
+
   return (
     <div className="min-h-screen flex flex-col bg-black text-white selection:bg-[#74C63D] selection:text-black">
-      <Navbar />
+      <Navbar settings={settings} />
       <main className="flex-grow">{children}</main>
-      <Footer />
-      <FloatingActionButtons />
+      <Footer settings={settings} />
+      <FloatingActionButtons settings={settings} />
     </div>
   );
 };

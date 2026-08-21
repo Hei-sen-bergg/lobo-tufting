@@ -40,22 +40,6 @@ export const ACCESSORIES_QUERY = groq`
   }
 `;
 
-export const WORKSHOPS_QUERY = groq`
-  *[_type == "workshopItem"] | order(startDate asc) {
-    _id,
-    title,
-    description,
-    startDate,
-    endDate,
-    price,
-    "imageUrl": image.asset->url,
-    capacity,
-    enrolledCount,
-    location,
-    featured
-  }
-`;
-
 export const ABOUT_QUERY = groq`
   *[_type == "about"] | order(_updatedAt desc)[0] {
     _id,
@@ -65,6 +49,7 @@ export const ABOUT_QUERY = groq`
     mission,
     sustainability,
     statsSectionTitle,
+    stats[] { value, suffix, label },
     visitTitle,
     visitDescription,
     visitButtonText,
@@ -93,6 +78,7 @@ export const HOME_PAGE_QUERY = groq`
     stat1Label,
     stat2Value,
     stat2Label,
+    "teaserImageUrl": teaserImage.asset->url,
     ctaTitle,
     ctaButtonText
   }
@@ -103,12 +89,14 @@ export const HOME_HERO_QUERY = HOME_PAGE_QUERY;
 export const SHOP_PAGE_QUERY = groq`
   *[_type == "shopPage"] | order(_updatedAt desc)[0] {
     _id,
+    "heroImageUrl": heroImage.asset->url,
     headlineLine1,
     headlineLine2,
     subtitle,
     videoSectionTitle,
     videoSectionTitleAccent,
     videoSectionSubtitle,
+    videoUrl,
     ctaTitle,
     ctaDescription,
     ctaLinkText
@@ -118,9 +106,11 @@ export const SHOP_PAGE_QUERY = groq`
 export const GALLERY_PAGE_QUERY = groq`
   *[_type == "galleryPage"] | order(_updatedAt desc)[0] {
     _id,
+    "heroImageUrl": heroImage.asset->url,
     headlineLine1,
     headlineLine2,
     subtitle,
+    videoUrl,
     bottomText,
     bottomButtonText
   }
@@ -129,11 +119,13 @@ export const GALLERY_PAGE_QUERY = groq`
 export const WORKSHOP_PAGE_QUERY = groq`
   *[_type == "workshopPage"] | order(_updatedAt desc)[0] {
     _id,
+    "heroImageUrl": heroImage.asset->url,
     badgeText,
     headlineLine1,
     headlineLine2,
     intro,
     features[] { title, description },
+    videoUrl,
     ctaButtonText,
     gallerySectionTitle,
     gallerySectionTitleAccent
@@ -143,23 +135,13 @@ export const WORKSHOP_PAGE_QUERY = groq`
 export const ACCESSORIES_PAGE_QUERY = groq`
   *[_type == "accessoriesPage"] | order(_updatedAt desc)[0] {
     _id,
+    "heroImageUrl": heroImage.asset->url,
     headlineLine1,
     headlineLine2,
     subtitle,
     ctaTitle,
     ctaDescription,
     ctaButtonText
-  }
-`;
-
-export const TESTIMONIALS_QUERY = groq`
-  *[_type == "testimonial"] {
-    _id,
-    clientName,
-    clientTitle,
-    content,
-    rating,
-    "imageUrl": image.asset->url
   }
 `;
 
@@ -172,6 +154,7 @@ export const SETTINGS_QUERY = groq`
     phoneNumber,
     socialLinks,
     address,
-    hours
+    hours,
+    chatQuickQuestions
   }
 `;

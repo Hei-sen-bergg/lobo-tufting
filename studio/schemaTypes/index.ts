@@ -2,9 +2,7 @@ import hero from './hero';
 import gallery from './gallery';
 import product from './product';
 import accessory from './accessory';
-import workshopItem from './workshopItem';
 import about from './about';
-import testimonial from './testimonial';
 import settings from './settings';
 import shopPage from './shopPage';
 import galleryPage from './galleryPage';
@@ -22,6 +20,4 @@ export const schemaTypes = [
   gallery,
   product,
   accessory,
-  workshopItem,
-  testimonial,
 ];

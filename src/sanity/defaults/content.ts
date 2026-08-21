@@ -10,7 +10,7 @@ import type {
   WorkshopPageCopy,
 } from '../types';
 
-export { HOME_PAGE_DEFAULTS, withHomeDefaults } from '../homeDefaults';
+export { HOME_PAGE_DEFAULTS } from '../homeDefaults';
 
 export const SHOP_PAGE_DEFAULTS: ShopPageCopy = {
   headlineLine1: 'Available',
@@ -21,6 +21,7 @@ export const SHOP_PAGE_DEFAULTS: ShopPageCopy = {
   videoSectionTitleAccent: 'Studio',
   videoSectionSubtitle:
     'Inside our tufting studio - where creativity meets craftsmanship',
+  videoUrl: '/lobo_tufting_/lobo_tufting__1773127369_3849589441597920968_47333694357.mp4',
   ctaTitle: "Don't see what you're looking for?",
   ctaDescription:
     'We specialize in one-of-a-kind custom orders tailored to your specifications.',
@@ -60,6 +61,7 @@ export const WORKSHOP_PAGE_DEFAULTS: WorkshopPageCopy = {
       description: "Snacks and Kerala's finest coffee to keep you fueled.",
     },
   ],
+  videoUrl: '/lobo_tufting_/lobo_tufting__1772114952_3840966041761607274_47333694357.mp4',
   ctaButtonText: 'Inquire for Next Slot',
   gallerySectionTitle: 'What Students',
   gallerySectionTitleAccent: 'Create',
@@ -89,6 +91,12 @@ export const ABOUT_PAGE_DEFAULTS: AboutPage = {
   imageUrl:
     '/lobo_tufting_/lobo_tufting__1688196806_3137144649102782183_47333694357.webp',
   statsSectionTitle: 'By The Numbers',
+  stats: [
+    { value: 200, suffix: '+', label: 'Rugs Crafted' },
+    { value: 100, suffix: '%', label: 'Happy Clients' },
+    { value: 4, suffix: '+', label: 'Years Active' },
+    { value: 1000, suffix: '+', label: 'Hours Invested' },
+  ],
   visitTitle: 'Visit the Studio',
   visitDescription:
     'Located in the heart of Kodungallur, Kerala. By appointment only.',

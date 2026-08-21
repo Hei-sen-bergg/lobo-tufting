@@ -1,17 +1,5 @@
 import type { StructureResolver } from 'sanity/structure';
 
-const pageCopyTypes = new Set([
-  'hero',
-  'shopPage',
-  'galleryPage',
-  'workshopPage',
-  'accessoriesPage',
-  'about',
-  'settings',
-]);
-
-const listTypes = new Set(['gallery', 'product', 'accessory', 'workshopItem', 'testimonial']);
-
 export const structure: StructureResolver = (S) =>
   S.list()
     .title('Lobo Tufting')
@@ -41,10 +29,4 @@ export const structure: StructureResolver = (S) =>
       S.listItem()
         .title('🖼️ Gallery photos')
         .child(S.documentTypeList('gallery').title('Gallery Items')),
-      S.listItem()
-        .title('🎓 Workshops')
-        .child(S.documentTypeList('workshopItem').title('Workshop Listings')),
-      S.listItem()
-        .title('💬 Testimonials')
-        .child(S.documentTypeList('testimonial').title('Testimonials')),
     ]);

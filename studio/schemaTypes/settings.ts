@@ -25,5 +25,20 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'chatQuickQuestions',
+      title: 'Chat launcher — quick questions',
+      description: 'Buttons shown in the WhatsApp chat popup next to the social icons.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'label', title: 'Button label', type: 'string' }),
+            defineField({ name: 'message', title: 'WhatsApp message (pre-filled)', type: 'text' }),
+          ],
+        },
+      ],
+    }),
   ],
 });

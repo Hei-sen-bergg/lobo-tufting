@@ -34,47 +34,8 @@ export const HOME_PAGE_DEFAULTS: HomePage = {
   stat1Label: 'Rugs Delivered',
   stat2Value: '100%',
   stat2Label: 'Handmade',
+  teaserImageUrl:
+    '/lobo_tufting_/lobo_tufting__1688196492_3137142016581358514_47333694357.webp',
   ctaTitle: 'Ready to start your project?',
   ctaButtonText: "Let's Chat on WhatsApp",
 };
-
-export function withHomeDefaults(data: HomePage | null | undefined): HomePage {
-  if (!data) return HOME_PAGE_DEFAULTS;
-
-  const headlineLine1 =
-    data.headlineLine1?.trim() ||
-    data.title?.trim() ||
-    HOME_PAGE_DEFAULTS.headlineLine1;
-
-  const headlineLine2 =
-    data.headlineLine2?.trim() || HOME_PAGE_DEFAULTS.headlineLine2;
-
-  return {
-    ...HOME_PAGE_DEFAULTS,
-    ...data,
-    badgeText: data.badgeText?.trim() || HOME_PAGE_DEFAULTS.badgeText,
-    headlineLine1,
-    headlineLine2,
-    subtitle: data.subtitle?.trim() || HOME_PAGE_DEFAULTS.subtitle,
-    imageUrl: data.imageUrl?.trim() || HOME_PAGE_DEFAULTS.imageUrl,
-    primaryButtonText:
-      data.primaryButtonText?.trim() || HOME_PAGE_DEFAULTS.primaryButtonText,
-    secondaryButtonText:
-      data.secondaryButtonText?.trim() || HOME_PAGE_DEFAULTS.secondaryButtonText,
-    howItWorksTitle:
-      data.howItWorksTitle?.trim() || HOME_PAGE_DEFAULTS.howItWorksTitle,
-    howItWorksSubtitle:
-      data.howItWorksSubtitle?.trim() || HOME_PAGE_DEFAULTS.howItWorksSubtitle,
-    steps: data.steps?.length ? data.steps : HOME_PAGE_DEFAULTS.steps,
-    teaserLine1: data.teaserLine1?.trim() || HOME_PAGE_DEFAULTS.teaserLine1,
-    teaserLine2: data.teaserLine2?.trim() || HOME_PAGE_DEFAULTS.teaserLine2,
-    teaserDescription:
-      data.teaserDescription?.trim() || HOME_PAGE_DEFAULTS.teaserDescription,
-    stat1Value: data.stat1Value?.trim() || HOME_PAGE_DEFAULTS.stat1Value,
-    stat1Label: data.stat1Label?.trim() || HOME_PAGE_DEFAULTS.stat1Label,
-    stat2Value: data.stat2Value?.trim() || HOME_PAGE_DEFAULTS.stat2Value,
-    stat2Label: data.stat2Label?.trim() || HOME_PAGE_DEFAULTS.stat2Label,
-    ctaTitle: data.ctaTitle?.trim() || HOME_PAGE_DEFAULTS.ctaTitle,
-    ctaButtonText: data.ctaButtonText?.trim() || HOME_PAGE_DEFAULTS.ctaButtonText,
-  };
-}

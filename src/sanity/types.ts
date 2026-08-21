@@ -31,19 +31,6 @@ export interface Accessory extends SanityImage {
   featured: boolean;
 }
 
-export interface WorkshopItem extends SanityImage {
-  _id: string;
-  title: string;
-  description: string;
-  startDate: string;
-  endDate: string;
-  price: number;
-  capacity: number;
-  enrolledCount: number;
-  location: string;
-  featured: boolean;
-}
-
 export interface AboutPage extends SanityImage {
   _id: string;
   headlineLine1: string;
@@ -52,6 +39,11 @@ export interface AboutPage extends SanityImage {
   mission: string;
   sustainability: string;
   statsSectionTitle: string;
+  stats?: Array<{
+    value: number;
+    suffix: string;
+    label: string;
+  }>;
   visitTitle: string;
   visitDescription: string;
   visitButtonText: string;
@@ -81,6 +73,7 @@ export interface HomePage extends SanityImage {
   stat1Label?: string;
   stat2Value?: string;
   stat2Label?: string;
+  teaserImageUrl?: string;
   ctaTitle?: string;
   ctaButtonText?: string;
 }
@@ -88,21 +81,25 @@ export interface HomePage extends SanityImage {
 export type Hero = HomePage;
 
 export interface ShopPageCopy {
+  heroImageUrl?: string;
   headlineLine1: string;
   headlineLine2: string;
   subtitle: string;
   videoSectionTitle: string;
   videoSectionTitleAccent: string;
   videoSectionSubtitle: string;
+  videoUrl?: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaLinkText: string;
 }
 
 export interface GalleryPageCopy {
+  heroImageUrl?: string;
   headlineLine1: string;
   headlineLine2: string;
   subtitle: string;
+  videoUrl?: string;
   bottomText: string;
   bottomButtonText: string;
 }
@@ -113,31 +110,26 @@ export interface WorkshopFeature {
 }
 
 export interface WorkshopPageCopy {
+  heroImageUrl?: string;
   badgeText: string;
   headlineLine1: string;
   headlineLine2: string;
   intro: string;
   features: WorkshopFeature[];
+  videoUrl?: string;
   ctaButtonText: string;
   gallerySectionTitle: string;
   gallerySectionTitleAccent: string;
 }
 
 export interface AccessoriesPageCopy {
+  heroImageUrl?: string;
   headlineLine1: string;
   headlineLine2: string;
   subtitle: string;
   ctaTitle: string;
   ctaDescription: string;
   ctaButtonText: string;
-}
-
-export interface Testimonial extends SanityImage {
-  _id: string;
-  clientName: string;
-  clientTitle: string;
-  content: string;
-  rating: number;
 }
 
 export interface Settings {
@@ -151,6 +143,10 @@ export interface Settings {
   socialLinks: Array<{
     platform: string;
     url: string;
+  }>;
+  chatQuickQuestions?: Array<{
+    label: string;
+    message: string;
   }>;
 }
 

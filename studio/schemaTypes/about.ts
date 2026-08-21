@@ -63,6 +63,34 @@ export default defineType({
       initialValue: 'By The Numbers',
     }),
     defineField({
+      name: 'stats',
+      title: 'Stats',
+      type: 'array',
+      fieldset: 'body',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'value', title: 'Number', type: 'number' }),
+            defineField({ name: 'suffix', title: 'Suffix (e.g. +, %)', type: 'string' }),
+            defineField({ name: 'label', title: 'Label', type: 'string' }),
+          ],
+          preview: {
+            select: { value: 'value', suffix: 'suffix', label: 'label' },
+            prepare: ({ value, suffix, label }) => ({
+              title: `${value ?? ''}${suffix ?? ''} ${label ?? ''}`.trim(),
+            }),
+          },
+        },
+      ],
+      initialValue: [
+        { value: 200, suffix: '+', label: 'Rugs Crafted' },
+        { value: 100, suffix: '%', label: 'Happy Clients' },
+        { value: 4, suffix: '+', label: 'Years Active' },
+        { value: 1000, suffix: '+', label: 'Hours Invested' },
+      ],
+    }),
+    defineField({
       name: 'visitTitle',
       title: 'Visit CTA heading',
       type: 'string',
